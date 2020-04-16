@@ -6,8 +6,16 @@
 {% include 'header.html' %}
 
 <body>
-    {% block content %}
-    {% endblock %}
+    <div class="container">
+        <div class="row">
+            {% include 'sidebar.html' %}
+
+            <div class="col-md-7 mt-3 right">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
 </body>
 
 {% include 'footer.html' %}

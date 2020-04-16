@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title h2">{{ post.title|title }}</div>
+            <p class="card-text text-muted">{{ post.author }}｜{{ post.pub_date }}</p>
+            <p class="card-text">{{ post.content|linebreaks }}</p>
+        </div>
+    </div>
+
+    <div class="container my-4">
+        <h2>Comment</h2>
+        <div class="col mt-3 left">
+            {% for comment in post.comment.all %}
+                <div class="card">
+                    <p class="card-text">{{ comment.commenter }}｜{{ comment.pub_date }}</p>
+                    <p class="card-text">{{ comment.content|linebreaks }}</p>
+                </div>
+            {% empty %}
+                <p class="text-muted">No comment recently</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

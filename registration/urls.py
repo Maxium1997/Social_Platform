@@ -6,8 +6,6 @@ from registration import views
 
 
 urlpatterns = [
-    path('', views.Index.as_view(), name='index'),
-
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', views.logout, name='logout'),
 
