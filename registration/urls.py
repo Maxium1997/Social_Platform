@@ -12,7 +12,7 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
 
     path('accounts/', include([
-        path('signup/', views.SignUp.as_view(), name='sign_up'),
+        path('signup/', views.SignUpView.as_view(), name='sign_up'),
         path('edit/', views.profile_update, name='profile_update'),
         path('password/change/', views.password_change, name='password_change'),
         path('password/reset/', views.password_reset, name='password_reset'),

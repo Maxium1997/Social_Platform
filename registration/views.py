@@ -21,7 +21,7 @@ class Index(TemplateView):
 
 # def sign_up(request):
 #     pass
-class SignUp(CreateView):
+class SignUpView(CreateView):
     model = User
     form_class = UserSignupForm
     template_name = 'sign_up.html'
