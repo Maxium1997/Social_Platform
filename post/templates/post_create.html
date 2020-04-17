@@ -11,9 +11,20 @@
 
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary">Post</button>
+                        <button type="button" class="btn btn-secondary" onclick="history.back();">Cancel</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        function slugInput() {
+            var titleElement = document.getElementById('title');
+            var slugElement = document.getElementById('slug');
+            slugElement.value = titleElement.value.toLowerCase().replace(/\s/g, "-");
+        }
+    </script>
 {% endblock %}

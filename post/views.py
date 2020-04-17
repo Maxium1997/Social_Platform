@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView, CreateView
 
 from post.models import Post, Comment
 from post.forms import PostCreateForm, CommentCreateForm
+from post.tag import processor
 
 # Create your views here.
 
@@ -54,6 +55,8 @@ class PostCreate(CreateView):
         post = form.save(commit=False)
         post.author = self.request.user
         post.save()
+        # post.tag.processor
+        processor(post, form.cleaned_data['tags'])
         return redirect('index')
 
     def get_success_url(self):

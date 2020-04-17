@@ -4,10 +4,24 @@ from post.models import Post, Comment, Tag
 
 
 class PostCreateForm(forms.ModelForm):
-    title = forms.CharField(max_length=200)
-    content = forms.Textarea
-    slug = forms.TextInput
-    tags = forms.ChoiceField(choices=Tag.objects.all(), widget=forms.Select, required=False)
+    title = forms.CharField(required=True,
+                            max_length=200,
+                            widget=forms.TextInput(attrs={'id': 'title',
+                                                          'class': 'form-control',
+                                                          'onkeyup': 'slugInput();'}))
+    content = forms.CharField(required=True,
+                              widget=forms.Textarea(attrs={'rows': 10,
+                                                           'cols': 50,
+                                                           'class': 'form-control'}))
+    slug = forms.CharField(required=True,
+                           max_length=200,
+                           widget=forms.TextInput(attrs={'id': 'slug',
+                                                         'class': 'form-control'}))
+    tags = forms.CharField(required=False,
+                           max_length=200,
+                           widget=forms.TextInput(attrs={'class': 'form-control',
+                                                         'placeholder': 'e.g.(health technology art)'}),
+                           help_text='Add tags to describe what your post is about.')
 
     class Meta:
         model = Post
@@ -15,10 +29,9 @@ class PostCreateForm(forms.ModelForm):
 
 
 class CommentCreateForm(forms.ModelForm):
-    # content = forms.Textarea(attrs={'rows': 4, 'cols': 100})
     content = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 4,
                                                                           'cols': 85,
-                                                                          'class': 'form_control'}))
+                                                                          'class': 'form-control'}))
 
     class Meta:
         model = Comment
