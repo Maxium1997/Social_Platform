@@ -8,6 +8,11 @@
                     <div class="card-title h2">{{ post.title|title }}</div>
                     <p class="card-text text-muted">{{ post.author }}｜{{ post.pub_date }}</p>
                     <p class="card-text">{{ post.content|slice:':150' }}</p>
+                    {% if post.comment.count <= 1 %}
+                        <span class="text-muted">{{ post.comment.count }} reply</span>
+                    {% else %}
+                        <span class="text-muted">{{ post.comment.count }} replies</span>
+                    {% endif %}
                     <a href="{% url 'post_detail' post.slug  %}" class="btn btn-primary float-right">Read More</a>
                 </div>
             </div>
