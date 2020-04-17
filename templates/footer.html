@@ -1,3 +1,19 @@
+<div style="margin: 2rem"></div>
+
+<div class="fixed-bottom" style="margin: 2rem">
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger alert-dismissable fade show" role="alert">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+</div>
+
 <footer class="fixed-bottom bg-dark">
     <div class="footer-copyright text-center py-2">
         <a href="{% url 'index' %}">⌬｜Platform</a> © 2020 Copyright

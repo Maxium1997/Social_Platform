@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from post.views import PostList, PostDetail, PostCreate
+from post.views import PostList, PostDetail, PostCreate, PersonalPostList
 
 urlpatterns = [
     path('', include([
@@ -10,5 +10,6 @@ urlpatterns = [
     path('post/', include([
         path('create/', PostCreate.as_view(), name='post_create'),
         path('detail/<slug:slug>', PostDetail.as_view(), name='post_detail'),
-    ]))
+        path('personal/', PersonalPostList.as_view(), name='personal_posts'),
+    ])),
 ]

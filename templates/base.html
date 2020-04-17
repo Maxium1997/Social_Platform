@@ -10,10 +10,8 @@
         <div class="row">
             {% include 'sidebar.html' %}
 
-            <div class="col-md-7 mt-3 right">
-                {% block content %}
-                {% endblock %}
-            </div>
+            {% block content %}
+            {% endblock %}
         </div>
     </div>
 </body>

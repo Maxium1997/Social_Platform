@@ -31,7 +31,18 @@ class PostCreate(CreateView):
     def form_valid(self, form):
         post = form.save(commit=False)
         post.author = self.request.user
-        return super(PostCreate, self).form_valid(form)
+        post.save()
+        return redirect('index')
 
     def get_success_url(self):
         return redirect('index')
+
+
+@method_decorator(login_required, name='dispatch')
+class PersonalPostList(ListView):
+    model = Post
+    template_name = 'personal_posts.html'
+    context_object_name = 'personal_posts'
+
+    def get_queryset(self):
+        return Post.objects.filter(author=self.request.user)
