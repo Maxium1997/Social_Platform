@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.core.exceptions import ObjectDoesNotExist
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView
+from django.core.exceptions import PermissionDenied
 
 from post.models import Post, Comment
-from post.forms import PostCreateForm, CommentCreateForm
+from post.forms import PostCreateForm, PostUpdateForm, CommentCreateForm
 from post.tag import processor
 
 # Create your views here.
@@ -60,6 +60,22 @@ class PostCreate(CreateView):
         return redirect('index')
 
     def get_success_url(self):
+        return redirect('index')
+
+
+@method_decorator(login_required, name='dispatch')
+class PostUpdate(UpdateView):
+    model = Post
+    form_class = PostUpdateForm
+    template_name_suffix = '_update'
+
+    def dispatch(self, request, *args, **kwargs):
+        post = self.get_object()
+        if request.user != post.author:
+            raise PermissionDenied
+        return super(PostUpdate, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
         return redirect('index')
 
 

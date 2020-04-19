@@ -6,13 +6,13 @@
         <p class="card-text text-muted">
             {{ post.author }}｜{{ post.pub_date }}
             {% if post.author == request.user %}
-                <span class="dropdown">
-                    <i class="float-right" id="postFunction-navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer">&hellip;</i>
-                    <div class="dropdown-menu" aria-labelledby="#postFunction-navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'personal_posts' %}">Personal Posts</a>
-                        <a class="dropdown-item" href="{% url 'post_create' %}">Post</a>
+                <div class="dropdown text-right">
+                    <i style="cursor: pointer" id="postFunctionsDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">&hellip;</i>
+                     <div class="dropdown-menu" aria-labelledby="postFunctionsDropdownMenu">
+                        <a class="dropdown-item" href="{% url 'post_update' post.slug %}">Edit<i class="fa fa-pencil float-right"></i></a>
+                        <a class="dropdown-item" href="#">Delete<i class="fa fa-trash float-right"></i></a>
                     </div>
-                </span>
+                </div>
             {% endif %}
         </p>
         <h5 class="card-text" style="font-size: 24px">{{ post.content|linebreaks }}</h5>
