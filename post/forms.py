@@ -20,7 +20,7 @@ class PostCreateForm(forms.ModelForm):
     tags = forms.CharField(required=False,
                            max_length=200,
                            widget=forms.TextInput(attrs={'class': 'form-control',
-                                                         'placeholder': 'e.g.(health technology art)'}),
+                                                         'placeholder': 'e.g.(@health @technology @art)'}),
                            help_text='Add tags to describe what your post is about.')
 
     class Meta:

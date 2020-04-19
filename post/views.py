@@ -36,7 +36,7 @@ def post_comment(request, slug):
     else:
         form = CommentCreateForm()
         context = {'post': post, 'form': form}
-        return render(request, 'post_detail.html', context)
+        return render(request, 'post/post_detail.html', context)
 
 
 # class PostDetail(DetailView):
@@ -47,7 +47,7 @@ def post_comment(request, slug):
 @method_decorator(login_required, name='dispatch')
 class PostCreate(CreateView):
     model = Post
-    template_name = 'post_create.html'
+    template_name = 'post/post_create.html'
     form_class = PostCreateForm
     context_object_name = 'post'
 
@@ -66,7 +66,7 @@ class PostCreate(CreateView):
 @method_decorator(login_required, name='dispatch')
 class PersonalPostList(ListView):
     model = Post
-    template_name = 'personal_posts.html'
+    template_name = 'post/personal_posts.html'
     context_object_name = 'personal_posts'
 
     def get_queryset(self):

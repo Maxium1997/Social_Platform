@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-md-8 mt-4 right">
+        <h1>{{ post.title|title }}</h1>
+        <p class="card-text text-muted">
+            {{ post.author }}｜{{ post.pub_date }}
+            {% if post.author == request.user %}
+                <span class="dropdown">
+                    <i class="float-right" id="postFunction-navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: pointer">&hellip;</i>
+                    <div class="dropdown-menu" aria-labelledby="#postFunction-navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'personal_posts' %}">Personal Posts</a>
+                        <a class="dropdown-item" href="{% url 'post_create' %}">Post</a>
+                    </div>
+                </span>
+            {% endif %}
+        </p>
+        <h5 class="card-text" style="font-size: 24px">{{ post.content|linebreaks }}</h5>
+        {% for tag in post.tags.all %}
+            <button class="btn btn-light" onclick="window.location.href='{% url 'tag_posts' tag.slug %}'">{{ tag }}</button>
+        {% endfor %}
+
+        <div class="container my-4">
+            <h2>Comment</h2>
+            <div class="col mt-3">
+                {% for comment in post.comment.all %}
+                    <div>
+                        <p class="card-text"><span class="h5">{{ comment.commenter }}</span>｜<span class="text-muted">{{ comment.pub_date }}</span></p>
+                        <p class="card-text">{{ comment.content|linebreaks }}</p>
+                        <hr>
+                    </div>
+                {% empty %}
+                    <p class="text-muted">No comment recently</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="container my-4">
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                <p>
+                    {{ form.content }}
+                </p>
+
+                <p class="text-right">
+                    <button type="submit" class="btn btn-primary">Comment</button>
+                    <button type="button" class="btn btn-secondary" onclick="history.back();">Back</button>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

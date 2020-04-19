@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="col-md-8 mt-4">
-        {% for post in posts %}
+    <div class="col-md-8 mt-4 right">
+        {% for post in personal_posts %}
             <div class="card mb-4" style="cursor: pointer" onclick="window.location.href='{% url 'post_detail' post.slug %}'">
                 <div class="card-body">
                     <div class="card-title h2">{{ post.title|title }}</div>
-                    <p class="card-text text-muted">{{ post.author }}｜{{ post.pub_date }}</p>
+                    <p class="card-text text-muted">{{ post.pub_date }}</p>
                     <p class="card-text">{{ post.content|slice:':150' }}</p>
                     <p class="card-text text-muted">
                         {% if post.comment.count != 0 %}
