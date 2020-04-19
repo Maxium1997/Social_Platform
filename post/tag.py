@@ -12,13 +12,15 @@ def processor(post: Post, tag_str: str):
 
         for tag in tags:
             if tag not in tagList:
-                newTag = Tag.objects.create(name=tag, slug=tag).save()
+                newTag = Tag.objects.create(name=tag, slug=tag)
+                newTag.save()
                 post.tags.add(newTag)
             else:
                 post.tags.add(Tag.objects.get(name=tag))
     else:
         if tag_str not in tagList:
-            newTag = Tag.objects.create(name=tag_str, slug=tag_str).save()
+            newTag = Tag.objects.create(name=tag_str, slug=tag_str)
+            newTag.save()
             post.tags.add(newTag)
         else:
             post.tags.add(Tag.objects.get(name=tag_str))
