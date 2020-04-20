@@ -6,11 +6,6 @@ from post.definition import Privacy
 # Create your models here.
 
 
-class Reply(models.Model):
-    content = models.TextField()
-    responder = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
 class Comment(models.Model):
     commenter = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()

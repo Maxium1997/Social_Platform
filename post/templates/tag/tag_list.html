@@ -3,8 +3,36 @@
 {% block content %}
     <div class="col-md-9 mt-4">
         <h1>Tags</h1>
-        {% for tag in tags %}
-            <button class="btn btn-secondary my-1 rounded-pill" style="font-size: 20px" onclick="window.location.href='{% url 'tag_posts' tag.slug %}'">{{ tag }}</button>
-        {% endfor %}
+        <div>
+            <input type="text" id="tag-filter-search-bar" class="form-control" onkeyup="tag_filter();" placeholder="Filter by tag name">
+        </div>
+        <div id="tagList">
+            {% for tag in tags %}
+                <span>
+                    <button class="btn btn-secondary my-1 rounded-pill" style="font-size: 20px" onclick="window.location.href='{% url 'tag_posts' tag.slug %}'">{{ tag }}</button>
+                </span>
+            {% endfor %}
+        </div>
     </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        function tag_filter() {
+            var input, filter, div, span, tag_button, txtValue;
+            input = document.getElementById('tag-filter-search-bar');
+            filter = input.value.toLowerCase();
+            div = document.getElementById('tagList');
+            span = div.getElementsByTagName('span');
+            for (var i = 0; i < span.length; i++) {
+                tag_button = span[i].getElementsByTagName('button')[0];
+                txtValue = tag_button.textContent || tag_button.innerText;
+                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                    span[i].style.display = '';
+                } else {
+                    span[i].style.display = 'none';
+                }
+            }
+        }
+    </script>
 {% endblock %}

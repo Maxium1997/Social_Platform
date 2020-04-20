@@ -23,12 +23,4 @@ class Migration(migrations.Migration):
             name='privacy',
             field=models.BooleanField(default=True),
         ),
-        migrations.CreateModel(
-            name='Reply',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('content', models.TextField()),
-                ('responder', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
     ]
