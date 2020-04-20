@@ -2,8 +2,8 @@
 
 {% block content %}
     <div class="col-md-8 mt-4 right">
-        <h1>My Post</h1>
-        {% for post in personal_posts %}
+        <h1>My Collection</h1>
+        {% for post in collection_posts %}
             <div class="card mb-4">
                 <div class="card-body" style="cursor: pointer" onclick="window.location.href='{% url 'post_detail' post.slug %}'">
                     <div class="card-title h2">{{ post.title|title }}</div>
@@ -23,11 +23,7 @@
                     </p>
                 </div>
                 <div class="card-footer text-right">
-                    {% if post not in request.user.collection.posts.all %}
-                        <a href="{% url 'post_saved' post.slug %}">Saved<i class="fa fa-bookmark-o"></i></a>
-                    {% else %}
-                        <a href="{% url 'post_unsaved' post.slug %}">Unsaved<i class="fa fa-bookmark"></i></a>
-                    {% endif %}
+                    <a href="{% url 'post_unsaved' post.slug %}">Unsaved<i class="fa fa-bookmark"></i></a>
                 </div>
             </div>
         {% endfor %}

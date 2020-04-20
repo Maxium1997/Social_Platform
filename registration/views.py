@@ -7,6 +7,7 @@ from Social_Platform.settings import LOGOUT_REDIRECT_URL
 
 from registration.models import User
 from registration.forms import UserSignupForm
+from post.models import Collection
 
 # Create your views here.
 
@@ -28,6 +29,7 @@ class SignUpView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
+        Collection.objects.create(user=user)
         auth.login(self.request, user)
         return redirect('index')
 

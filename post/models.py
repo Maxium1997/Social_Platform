@@ -35,9 +35,15 @@ class Post(models.Model):
     last_update = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag)
     comment = models.ManyToManyField(Comment)
+    likes = models.ManyToManyField(User, related_name='user_likes')
 
     class Meta:
         ordering = ['-pub_date']
 
     def __str__(self):
         return self.title
+
+
+class Collection(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    posts = models.ManyToManyField(Post)

@@ -6,9 +6,11 @@ from django.views.generic import ListView, CreateView, UpdateView
 from django.core.exceptions import PermissionDenied
 from django.template.defaultfilters import slugify
 
+from registration.models import User
 from post.models import Post, Comment
 from post.forms import PostCreateForm, PostUpdateForm, CommentCreateForm
 from post.tag import processor
+from post.collection import collection_add, collection_remove
 
 # Create your views here.
 
@@ -90,3 +92,27 @@ class PersonalPostList(ListView):
 
     def get_queryset(self):
         return Post.objects.filter(author=self.request.user)
+
+
+@method_decorator(login_required, name='dispatch')
+class CollectionPostList(ListView):
+    model = User
+    template_name = 'post/collection_posts.html'
+    context_object_name = 'collection_posts'
+
+    def get_queryset(self):
+        return self.request.user.collection.posts.all()
+
+
+@login_required
+def post_saved(request, slug):
+    post = Post.objects.get(slug=slug)
+    collection_add(request.user, post)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def post_unsaved(request, slug):
+    post = Post.objects.get(slug=slug)
+    collection_remove(request.user, post)
+    return redirect(request.META.get('HTTP_REFERER'))

@@ -5,15 +5,20 @@
         <h1>{{ post.title|title }}</h1>
         <p class="card-text text-muted">
             {{ post.author }}｜{{ post.pub_date }}
-            {% if post.author == request.user %}
                 <div class="dropdown text-right">
                     <i style="cursor: pointer" id="postFunctionsDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">&hellip;</i>
                      <div class="dropdown-menu" aria-labelledby="postFunctionsDropdownMenu">
+                        {% if post.author == request.user %}
                         <a class="dropdown-item" href="{% url 'post_update' post.slug %}">Edit<i class="fa fa-pencil float-right"></i></a>
                         <a class="dropdown-item" href="#">Delete<i class="fa fa-trash float-right"></i></a>
+                        {% endif %}
+                        {% if post in request.user.collection.posts.all %}
+                            <a class="dropdown-item" href="{% url 'post_unsaved' post.slug %}">Unsaved<i class="fa fa-bookmark-o float-right"></i></a>
+                        {% else %}
+                            <a class="dropdown-item" href="{% url 'post_saved' post.slug %}">Saved<i class="fa fa-bookmark float-right"></i></a>
+                        {% endif %}
                     </div>
                 </div>
-            {% endif %}
         </p>
         <h5 class="card-text" style="font-size: 24px">{{ post.content|linebreaks }}</h5>
         {% for tag in post.tags.all %}
