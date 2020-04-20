@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, UpdateView
 from django.core.exceptions import PermissionDenied
+from django.template.defaultfilters import slugify
 
 from post.models import Post, Comment
 from post.forms import PostCreateForm, PostUpdateForm, CommentCreateForm
@@ -53,6 +55,7 @@ class PostCreate(CreateView):
 
     def form_valid(self, form):
         post = form.save(commit=False)
+        post = slugify(post.title)
         post.author = self.request.user
         post.save()
         # post.tag.processor
@@ -76,7 +79,7 @@ class PostUpdate(UpdateView):
         return super(PostUpdate, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        return redirect('index')
+        post = form.save(commit=False)
 
 
 @method_decorator(login_required, name='dispatch')

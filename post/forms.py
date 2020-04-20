@@ -13,10 +13,6 @@ class PostCreateForm(forms.ModelForm):
                               widget=forms.Textarea(attrs={'rows': 10,
                                                            'cols': 50,
                                                            'class': 'form-control'}))
-    slug = forms.CharField(required=True,
-                           max_length=200,
-                           widget=forms.TextInput(attrs={'id': 'slug',
-                                                         'class': 'form-control'}))
     tags = forms.CharField(required=False,
                            max_length=200,
                            widget=forms.TextInput(attrs={'class': 'form-control',
@@ -25,7 +21,7 @@ class PostCreateForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title', 'content', 'slug', 'tags']
+        fields = ['title', 'content', 'tags']
 
 
 class PostUpdateForm(forms.ModelForm):
@@ -38,19 +34,14 @@ class PostUpdateForm(forms.ModelForm):
                               widget=forms.Textarea(attrs={'rows': 10,
                                                            'cols': 50,
                                                            'class': 'form-control'}))
-    slug = forms.CharField(required=True,
-                           max_length=200,
-                           widget=forms.TextInput(attrs={'id': 'slug',
-                                                         'class': 'form-control'}))
     tags = forms.CharField(required=False,
                            max_length=200,
                            widget=forms.TextInput(attrs={'class': 'form-control',
-                                                         'placeholder': 'e.g.(@health @technology @art)'}),
-                           help_text='Add tags to describe what your post is about.')
+                                                         'placeholder': 'e.g.(@health @technology @art)'}))
 
     class Meta:
         model = Post
-        fields = ['title', 'content', 'slug', 'tags']
+        fields = ['title', 'content', 'tags']
 
 
 class CommentCreateForm(forms.ModelForm):

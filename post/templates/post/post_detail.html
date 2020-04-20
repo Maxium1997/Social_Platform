@@ -17,7 +17,7 @@
         </p>
         <h5 class="card-text" style="font-size: 24px">{{ post.content|linebreaks }}</h5>
         {% for tag in post.tags.all %}
-            <button class="btn btn-light" onclick="window.location.href='{% url 'tag_posts' tag.slug %}'">{{ tag }}</button>
+            <a href="{% url 'tag_posts' tag.slug %}" class="mr-1 badge badge-light">#{{ tag }}</a>
         {% endfor %}
 
         <div class="container my-4">
