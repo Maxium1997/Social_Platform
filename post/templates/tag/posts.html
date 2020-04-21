@@ -3,9 +3,8 @@
 {% block content %}
     <div class="col-md-8 mt-4">
         <h1>Posts tagged [{{ tag_name }}]</h1>
-        {% if tag_posts %}
-            <p class="text-muted">{{ tag_posts.count }} post{{ tag_posts.count|pluralize }}</p>
             {% for post in tag_posts %}
+                <p class="text-muted">{{ tag_posts.count }} post{{ tag_posts.count|pluralize }}</p>
                 <div class="card mb-4">
                     <div class="card-body" style="cursor: pointer" onclick="window.location.href='{% url 'post_detail' post.slug %}'">
                         <div class="card-title h5">{{ post.title|title }}</div>
@@ -22,9 +21,19 @@
                             {% else %}
                                 {{ post.comment.count }} comment
                             {% endif %}
+
+                            &nbsp;
+
+                            <i class="fa fa-heart"></i> {{ post.likes.count }}
                         </p>
                     </div>
                     <div class="card-footer text-right">
+                        {% if request.user not in post.likes.all %}
+                            <a href="{% url 'post_like' post.slug %}"><i class="fa fa-heart-o"></i> Like</a>
+                        {% else %}
+                            <a href="{% url 'post_dislike' post.slug %}"><i class="fa fa-heart"></i> Dislike</a>
+                        {% endif %}
+                        &nbsp;
                         {% if post not in request.user.collection.posts.all %}
                             <a href="{% url 'post_saved' post.slug %}">Saved<i class="fa fa-bookmark-o"></i></a>
                         {% else %}
@@ -32,9 +41,8 @@
                         {% endif %}
                     </div>
                 </div>
+            {% empty %}
+                <p class="text-muted">No post recently</p>
             {% endfor %}
-        {% else %}
-            <p class="text-muted">No post recently</p>
-        {% endif %}
     </div>
 {% endblock %}

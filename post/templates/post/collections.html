@@ -20,12 +20,24 @@
                         {% else %}
                             {{ post.comment.count }} comment
                         {% endif %}
+
+                        &nbsp;
+
+                        <i class="fa fa-heart"></i> {{ post.likes.count }}
                     </p>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="{% url 'post_unsaved' post.slug %}">Unsaved<i class="fa fa-bookmark"></i></a>
+                    {% if request.user not in post.likes.all %}
+                        <a href="{% url 'post_like' post.slug %}"><i class="fa fa-heart-o"></i> Like</a>
+                    {% else %}
+                        <a href="{% url 'post_dislike' post.slug %}"><i class="fa fa-heart"></i> Dislike</a>
+                    {% endif %}
+                    &nbsp;
+                    <a href="{% url 'post_unsaved' post.slug %}"><i class="fa fa-bookmark"></i> Unsaved</a>
                 </div>
             </div>
+        {% empty %}
+            <p class="text-muted">No collection recently</p>
         {% endfor %}
     </div>
 {% endblock %}

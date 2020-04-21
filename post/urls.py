@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from post.views import PostList, PostCreate, PostUpdate, PersonalPostList, CollectionPostList
-from post.views import post_comment, post_saved, post_unsaved
+from post.views import post_comment, post_saved, post_unsaved, post_like, post_dislike
 from post.tag import TagList, TagPostList
 
 urlpatterns = [
@@ -15,6 +15,8 @@ urlpatterns = [
         path('detail/<slug:slug>', post_comment, name='post_detail'),
         path('saved/<slug:slug>', post_saved, name='post_saved'),
         path('unsaved/<slug:slug>', post_unsaved, name='post_unsaved'),
+        path('like/<slug:slug>', post_like, name='post_like'),
+        path('dislike/<slug:slug>', post_dislike, name='post_dislike'),
         path('personal/', PersonalPostList.as_view(), name='personal_posts'),
         path('collections/', CollectionPostList.as_view(), name='collection_posts'),
     ])),

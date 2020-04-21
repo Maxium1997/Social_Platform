@@ -19,13 +19,23 @@
                         {% else %}
                             {{ post.comment.count }} comment
                         {% endif %}
+
+                        &nbsp;
+
+                        <i class="fa fa-heart"></i> {{ post.likes.count }}
                     </p>
                 </div>
                 <div class="card-footer text-right">
-                    {% if post not in request.user.collection.posts.all %}
-                        <a href="{% url 'post_saved' post.slug %}">Saved<i class="fa fa-bookmark-o"></i></a>
+                    {% if request.user not in post.likes.all %}
+                        <a href="{% url 'post_like' post.slug %}"><i class="fa fa-heart-o"></i> Like</a>
                     {% else %}
-                        <a href="{% url 'post_unsaved' post.slug %}">Unsaved<i class="fa fa-bookmark"></i></a>
+                        <a href="{% url 'post_dislike' post.slug %}"><i class="fa fa-heart"></i> Dislike</a>
+                    {% endif %}
+                    &nbsp;
+                    {% if post not in request.user.collection.posts.all %}
+                        <a href="{% url 'post_saved' post.slug %}"><i class="fa fa-bookmark-o"></i> Saved</a>
+                    {% else %}
+                        <a href="{% url 'post_unsaved' post.slug %}"><i class="fa fa-bookmark"></i> Unsaved</a>
                     {% endif %}
                 </div>
             </div>

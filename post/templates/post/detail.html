@@ -12,18 +12,68 @@
                         <a class="dropdown-item" href="{% url 'post_update' post.slug %}">Edit<i class="fa fa-pencil float-right"></i></a>
                         <a class="dropdown-item" href="#">Delete<i class="fa fa-trash float-right"></i></a>
                         {% endif %}
-                        {% if post in request.user.collection.posts.all %}
-                            <a class="dropdown-item" href="{% url 'post_unsaved' post.slug %}">Unsaved<i class="fa fa-bookmark-o float-right"></i></a>
+                        {% if request.user not in post.likes.all %}
+                            <a class="dropdown-item" href="{% url 'post_like' post.slug %}">Like<i class="fa fa-heart-o float-right"></i></a>
                         {% else %}
-                            <a class="dropdown-item" href="{% url 'post_saved' post.slug %}">Saved<i class="fa fa-bookmark float-right"></i></a>
+                            <a class="dropdown-item" href="{% url 'post_dislike' post.slug %}">Dislike<i class="fa fa-heart float-right"></i></a>
+                        {% endif %}
+                        {% if post in request.user.collection.posts.all %}
+                            <a class="dropdown-item" href="{% url 'post_unsaved' post.slug %}">Unsaved<i class="fa fa-bookmark float-right"></i></a>
+                        {% else %}
+                            <a class="dropdown-item" href="{% url 'post_saved' post.slug %}">Saved<i class="fa fa-bookmark-o float-right"></i></a>
                         {% endif %}
                     </div>
                 </div>
         </p>
         <h5 class="card-text" style="font-size: 24px">{{ post.content|linebreaks }}</h5>
-        {% for tag in post.tags.all %}
-            <a href="{% url 'tag_posts' tag.slug %}" class="mr-1 badge badge-light">#{{ tag }}</a>
-        {% endfor %}
+
+        <p>
+            {% for tag in post.tags.all %}
+                <a href="{% url 'tag_posts' tag.slug %}" class="mr-1 badge badge-light">#{{ tag }}</a>
+            {% endfor %}
+        </p>
+
+        <p>
+            <i class="fa fa-heart" style="cursor: pointer" data-toggle="modal" data-target="#whoLikes-Modal"> {{ post.likes.count }}</i>
+            <div class="modal fade" id="whoLikes-Modal" tabindex="-1" role="dialog" aria-labelledby="whoLikes-ModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Who likes</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <ul class="list-unstyled">
+                                {% for user in post.likes.all %}
+                                    <li>{{ user }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <span class="float-right">
+                {% if request.user not in post.likes.all %}
+                    <a href="{% url 'post_like' post.slug %}"><i class="fa fa-heart-o"></i> Like</a>
+                {% else %}
+                    <a href="{% url 'post_dislike' post.slug %}"><i class="fa fa-heart"></i> Dislike</a>
+                {% endif %}
+                &nbsp;
+                {% if post not in request.user.collection.posts.all %}
+                    <a href="{% url 'post_saved' post.slug %}"><i class="fa fa-bookmark-o"></i> Saved</a>
+                {% else %}
+                    <a href="{% url 'post_unsaved' post.slug %}"><i class="fa fa-bookmark"></i> Unsaved</a>
+                {% endif %}
+            </span>
+        </p>
 
         <div class="container my-4">
             <h2>Comment</h2>

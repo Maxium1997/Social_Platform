@@ -68,6 +68,7 @@ class PostCreate(CreateView):
         return redirect('index')
 
 
+# Unfinished
 @method_decorator(login_required, name='dispatch')
 class PostUpdate(UpdateView):
     model = Post
@@ -117,4 +118,18 @@ def post_saved(request, slug):
 def post_unsaved(request, slug):
     post = Post.objects.get(slug=slug)
     collection_remove(request.user, post)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required(redirect_field_name='post/personal_posts.html')
+def post_like(request, slug):
+    post = Post.objects.get(slug=slug)
+    post.likes.add(request.user)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required(redirect_field_name='post/personal_posts.html')
+def post_dislike(request, slug):
+    post = Post.objects.get(slug=slug)
+    post.likes.remove(request.user)
     return redirect(request.META.get('HTTP_REFERER'))
