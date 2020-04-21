@@ -31,13 +31,13 @@ def processor(post: Post, tag_str: str):
 class TagList(ListView):
     model = Tag
     queryset = Tag.objects.all()
-    template_name = 'tag/tag_list.html'
+    template_name = 'tag/list.html'
     context_object_name = 'tags'
 
 
 class TagPostList(ListView):
     model = Tag
-    template_name = 'tag/tag_posts.html'
+    template_name = 'tag/posts.html'
     context_object_name = 'tag_posts'
 
     def get_queryset(self, *args, **kwargs):

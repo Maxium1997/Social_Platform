@@ -40,18 +40,18 @@ def post_comment(request, slug):
     else:
         form = CommentCreateForm()
         context = {'post': post, 'form': form}
-        return render(request, 'post/post_detail.html', context)
+        return render(request, 'post/detail.html', context)
 
 
 # class PostDetail(DetailView):
 #     model = Post
-#     template_name = 'post_detail.html'
+#     template_name = 'detail.html'
 
 
 @method_decorator(login_required, name='dispatch')
 class PostCreate(CreateView):
     model = Post
-    template_name = 'post/post_create.html'
+    template_name = 'post/create.html'
     form_class = PostCreateForm
     context_object_name = 'post'
 
@@ -97,21 +97,23 @@ class PersonalPostList(ListView):
 @method_decorator(login_required, name='dispatch')
 class CollectionPostList(ListView):
     model = User
-    template_name = 'post/collection_posts.html'
+    template_name = 'post/collections.html'
     context_object_name = 'collection_posts'
 
     def get_queryset(self):
         return self.request.user.collection.posts.all()
 
 
-@login_required
+# redirect field doesn't work
+@login_required(redirect_field_name='post/personal_posts.html')
 def post_saved(request, slug):
     post = Post.objects.get(slug=slug)
     collection_add(request.user, post)
     return redirect(request.META.get('HTTP_REFERER'))
 
 
-@login_required
+# redirect field doesn't work
+@login_required(redirect_field_name='post/personal_posts.html')
 def post_unsaved(request, slug):
     post = Post.objects.get(slug=slug)
     collection_remove(request.user, post)
